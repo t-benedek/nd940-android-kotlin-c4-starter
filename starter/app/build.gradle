@@ -9,6 +9,10 @@ android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion "29.0.2"
 
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def googleMapApiKey = properties.getProperty('MAPS_API_KEY')
+
     defaultConfig {
         applicationId "com.udacity.project4"
         minSdkVersion rootProject.minSdkVersion
@@ -16,6 +20,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [ myApiMaps: googleMapApiKey ]
     }
     buildTypes {
         release {
@@ -122,5 +127,6 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:$playServicesVersion"
     implementation "com.google.android.gms:play-services-maps:$playServicesVersion"
 
-
 }
+
+
