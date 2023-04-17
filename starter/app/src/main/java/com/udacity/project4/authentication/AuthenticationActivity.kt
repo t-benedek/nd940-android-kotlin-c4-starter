@@ -22,7 +22,6 @@ private const val SIGN_IN = 1
 
 class AuthenticationActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("<<AuthActivity>>", "<<2>> onCreate: ")
