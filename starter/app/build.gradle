@@ -127,6 +127,14 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:$playServicesVersion"
     implementation "com.google.android.gms:play-services-maps:$playServicesVersion"
 
+    implementation 'com.firebaseui:firebase-ui-auth:5.0.0'
+    implementation 'com.android.support:multidex:1.0.3'
+
+    // Problem "Cannot fit requested classes in a single dex file (# methods: 65839 > 65536)"
+    implementation 'com.android.support:multidex:1.0.3'
+
 }
+
+apply plugin: 'com.google.gms.google-services'
 
 
