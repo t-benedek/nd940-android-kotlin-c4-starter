@@ -55,8 +55,7 @@ class AuthenticationActivity : AppCompatActivity() {
                 .createSignInIntentBuilder()
                 .setAvailableProviders(
                     listOf(
-                        // TODO Add Google Builder
-                        // AuthUI.IdpConfig.GoogleBuilder().build(),
+                        AuthUI.IdpConfig.GoogleBuilder().build(),
                         AuthUI.IdpConfig.EmailBuilder().build()
                     )
                 )
