@@ -71,10 +71,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     private fun onLocationSelected() {
-        //        TODO: When the user confirms on the selected location,
-        //         send back the selected location details to the view model
-        //         and navigate back to the previous fragment to save the reminder and add the geofence
-
         if (pointOfInterest != null) {
             // Set saveReminder variable values
             _viewModel.selectedPOI.value = pointOfInterest
@@ -119,15 +115,18 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-//  TODO: zoom to the user location after taking his permission
         enableMyLocation(map)
 
+        val latitude = 48.157905168294214
+        val longitude = 11.567469284020042
+        val zoomLevel = 15f
 
-//  TODO: add style to the map
+        val homeLatLng = LatLng(latitude, longitude)
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
+        // map.addMarker(MarkerOptions().position(homeLatLng))
+
         setMapStyle(map)
 
-//  TODO: put a marker to location that the user selected
-        // Add a marker by long click
         setMapLongClick(map)
 
         // Add a marker by tapping on a POI
