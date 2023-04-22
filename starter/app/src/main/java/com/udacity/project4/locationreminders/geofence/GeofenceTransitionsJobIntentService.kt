@@ -24,7 +24,7 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
 
     companion object {
         private const val JOB_ID = 573
-        private const val TAG = "GeofenceTransitionJob"
+        private const val TAG = "Geofence"
 
         fun enqueueWork(context: Context, intent: Intent) {
             enqueueWork(
@@ -36,7 +36,7 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
     }
 
     override fun onHandleWork(intent: Intent) {
-
+        Log.i(TAG, "Geofence activated in intent")
         val geofencingEvent = GeofencingEvent.fromIntent(intent)
 
         if (geofencingEvent.hasError()) {
@@ -52,6 +52,7 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
     }
 
     private fun sendNotification(triggeringGeofences: List<Geofence>) {
+        Log.i(TAG, "Geofence activated, sending notification")
         val requestId = triggeringGeofences[0].requestId
         val remindersLocalRepository: ReminderDataSource by inject()
 

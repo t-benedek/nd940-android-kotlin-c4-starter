@@ -52,7 +52,6 @@ class SaveReminderFragment : BaseFragment() {
     }
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -88,6 +87,7 @@ class SaveReminderFragment : BaseFragment() {
             reminderData = ReminderDataItem(title, description, location, latitude, longitude)
 
             if (_viewModel.validateAndSaveReminder(reminderData)) {
+                Log.i("GEOFENCE", "checkPermissionsAndStartGeofencing")
                 checkPermissionsAndStartGeofencing()
             }
         }
@@ -108,6 +108,7 @@ class SaveReminderFragment : BaseFragment() {
             checkDeviceLocationSettingsAndStartGeofence()
         } else {
             requestForegroundAndBackgroundLocationPermissions()
+            checkDeviceLocationSettingsAndStartGeofence()
         }
     }
 
@@ -138,6 +139,7 @@ class SaveReminderFragment : BaseFragment() {
 
     @TargetApi(29 )
     private fun requestForegroundAndBackgroundLocationPermissions() {
+        Log.i("GEOFENCE", "requestForegroundAndBackgroundLocationPermissions")
         if (foregroundAndBackgroundLocationPermissionApproved())
             return
         var permissionsArray = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -148,7 +150,7 @@ class SaveReminderFragment : BaseFragment() {
             }
             else -> REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
         }
-        Log.d(TAG, "Request foreground only location permission")
+        Log.d("GEOFENCE", "Request foreground only location permission")
         ActivityCompat.requestPermissions(
             requireActivity(),
             permissionsArray,
@@ -182,6 +184,7 @@ class SaveReminderFragment : BaseFragment() {
     }
 
     private fun checkDeviceLocationSettingsAndStartGeofence(resolve:Boolean = true) {
+        Log.i("GEOFENCE", "checkDeviceLocationSettingsAndStartGeofence")
         val locationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_LOW_POWER
         }
@@ -195,9 +198,10 @@ class SaveReminderFragment : BaseFragment() {
                     exception.startResolutionForResult(requireActivity(),
                         REQUEST_TURN_DEVICE_LOCATION_ON)
                 } catch (sendEx: IntentSender.SendIntentException) {
-                    Log.d(TAG, "Error getting location settings resolution: " + sendEx.message)
+                    Log.d("GEOFENCE", "Error getting location settings resolution: " + sendEx.message)
                 }
             } else {
+                checkDeviceLocationSettingsAndStartGeofence()
 //                Snackbar.make(
 //                    // TODO REpair snackbar
 //                    binding.fragmentSaveReminder,
@@ -208,6 +212,7 @@ class SaveReminderFragment : BaseFragment() {
             }
         }
         locationSettingsResponseTask.addOnCompleteListener {
+            Log.i("GEOFENCE", "addGeofenceForReminder")
             if ( it.isSuccessful ) {
                 addGeofenceForReminder()
             }
@@ -220,8 +225,9 @@ class SaveReminderFragment : BaseFragment() {
      */
     @SuppressLint("MissingPermission")
     private fun addGeofenceForReminder() {
-
+        Log.i("GEOFENCE", "Adding new geofence")
         if (this::reminderData.isInitialized) {
+            Log.i("GEOFENCE", "Adding new geofence")
             val currentGeofence = reminderData
 
             val geofence = Geofence.Builder()
@@ -245,7 +251,7 @@ class SaveReminderFragment : BaseFragment() {
                     geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
                         addOnSuccessListener {
                             _viewModel.showSnackBarInt.value = R.string.geofences_added
-                            Log.e("Add Geofence", geofence.requestId)
+                            Log.e("GEOFENCE", geofence.requestId)
                         }
                         addOnFailureListener {
                             _viewModel.showSnackBarInt.value = R.string.geofences_not_added
