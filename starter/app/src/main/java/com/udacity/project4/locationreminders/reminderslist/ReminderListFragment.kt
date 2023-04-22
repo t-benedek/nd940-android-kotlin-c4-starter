@@ -36,6 +36,7 @@ class ReminderListFragment : BaseFragment() {
 
         binding.refreshLayout.setOnRefreshListener { _viewModel.loadReminders() }
 
+        // Only for testing purposes
         // _viewModel.deleteAllItems()
 
         return binding.root
