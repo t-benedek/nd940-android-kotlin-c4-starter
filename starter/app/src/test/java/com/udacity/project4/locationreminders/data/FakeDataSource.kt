@@ -15,7 +15,7 @@ class FakeDataSource(var reminders: MutableList<ReminderDTO> = mutableListOf()) 
 
     override suspend fun getReminders(): Result<List<ReminderDTO>> {
         if (shouldReturnError) {
-            return Result.Error("Reminders not found")
+            return Result.Error(Exception("An Exception occured").localizedMessage)
         } else {
             return Result.Success(ArrayList(reminders))
         }
@@ -33,7 +33,7 @@ class FakeDataSource(var reminders: MutableList<ReminderDTO> = mutableListOf()) 
             return if (reminder != null) {
                 Result.Success(reminder)
             } else {
-                Result.Error("Reminder not found")
+                Result.Error(Exception("An Exception occured").localizedMessage)
             }
         }
     }
