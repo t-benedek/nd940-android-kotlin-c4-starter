@@ -5,7 +5,7 @@ import com.google.android.gms.location.GeofenceStatusCodes
 import com.udacity.project4.R
 
 internal object GeofenceConstants{
-    const val GEOFENCE_RADIUS_IN_METERS = 100f
+    const val GEOFENCE_RADIUS_IN_METERS = 200f
     const val ACTION_GEOFENCE_EVENT =
         "ACTION_GEOFENCE_EVENT"
 }

@@ -225,7 +225,6 @@ class SaveReminderFragment : BaseFragment() {
      */
     @SuppressLint("MissingPermission")
     private fun addGeofenceForReminder() {
-        Log.i("GEOFENCE", "Adding new geofence")
         if (this::reminderData.isInitialized) {
             Log.i("GEOFENCE", "Adding new geofence")
             val currentGeofence = reminderData
@@ -246,7 +245,8 @@ class SaveReminderFragment : BaseFragment() {
                 .addGeofence(geofence)
                 .build()
 
-            geofencingClient.removeGeofences(geofencePendingIntent)?.run {
+            geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
+
                 addOnCompleteListener {
                     geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
                         addOnSuccessListener {
