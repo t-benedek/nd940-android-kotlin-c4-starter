@@ -22,14 +22,14 @@ class FakeDataSource(var reminders: MutableList<ReminderDTO> = mutableListOf()) 
     }
 
     override suspend fun saveReminder(reminder: ReminderDTO) {
-        reminders?.add(reminder)
+        reminders.add(reminder)
     }
 
     override suspend fun getReminder(id: String): Result<ReminderDTO> {
         if(shouldReturnError){
             return Result.Error("Error")
         } else {
-            val reminder = reminders?.find { it.id == id }
+            val reminder = reminders.find { it.id == id }
             return if (reminder != null) {
                 Result.Success(reminder)
             } else {
@@ -39,6 +39,6 @@ class FakeDataSource(var reminders: MutableList<ReminderDTO> = mutableListOf()) 
     }
 
     override suspend fun deleteAllReminders() {
-        reminders?.clear()
+        reminders.clear()
     }
 }
