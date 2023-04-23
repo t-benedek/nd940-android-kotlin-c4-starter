@@ -8,6 +8,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -105,37 +106,30 @@ class RemindersActivityTest : AutoCloseKoinTest() {
 
     @Test
     fun toastTest() {
+        //GIVEN
         val scenario = ActivityScenario.launch(RemindersActivity::class.java)
         dataBindingResourcec.monitorActivity(scenario)
 
-        onView(withId(R.id.addReminderFAB))
-            .perform(click())
+        // WHEN
+        onView(withId(R.id.addReminderFAB)).perform(click())
+        onView(withId(R.id.reminderTitle)).perform(ViewActions.replaceText("title asdasd"))
+        onView(withId(R.id.reminderDescription)).perform(ViewActions.replaceText("description asdasd"))
 
-        onView(withId(R.id.reminderTitle))
-            .perform(ViewActions.replaceText("title asdasd"))
+        onView(withId(R.id.selectLocation)).perform(click())
+        onView(withId(R.id.map)).perform(longClick())
+        onView(withId(R.id.save_button)).perform(click())
+        onView(withId(R.id.saveReminder)).perform(click())
+        onView(withId(R.id.addReminderFAB)).perform(click())
 
-        onView(withId(R.id.reminderDescription))
-            .perform(ViewActions.replaceText("description asdasd"))
-
-        onView(withId(R.id.selectLocation))
-            .perform(click())
-        onView(withId(R.id.save_button))
-            .perform(click())
-
-        onView(withId(R.id.saveReminder))
-            .perform(click())
-
-        onView(withId(R.id.addReminderFAB))
-            .perform(click())
-
+        // THEN
         onView(withText(R.string.reminder_saved)).inRoot(withDecorView(
             CoreMatchers.not(
                 CoreMatchers.`is`(
                     getActivity(scenario).window.decorView
                 )
             )
-        ))
-            .check(matches(isDisplayed()))
+        )).check(matches(isDisplayed()))
+
         scenario.close()
     }
 
